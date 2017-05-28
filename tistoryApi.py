@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from urllib.parse import urlencode
 import urllib.parse as urlparse
 import time
+import json
 
 
 chromeDriver = "/Users/adun/Downloads/chromedriver"
@@ -18,6 +19,8 @@ class Tistory:
         self._redirect_uri  = redirect_uri
         self._response_type = response_type
         self._state         = state
+
+        self.state = "logout"
 
         params = {
             "client_id": self._client_id,
@@ -36,17 +39,26 @@ class Tistory:
 
         driver.get(self.URL["login"])
 
-        time.sleep(1)
+        #time.sleep(1)
         driver.find_element_by_id("loginId").send_keys(self._id)
         driver.find_element_by_id("loginPw").send_keys(self._pw)
         driver.find_element_by_class_name("btn_login").click()
-        time.sleep(1)
-        driver.find_element_by_class_name("confirm").click()
-        time.sleep(1)
+        #time.sleep(1)
+
+        try:
+            driver.find_element_by_class_name("confirm").click()
+        except :
+            driver.quit()
+            print("아이디 또는 비밀번호가 틀렸습니다.")
+            return False
+
+        #time.sleep(1)
 
         url = driver.current_url
         parsed = urlparse.urlparse(url)
         self._code = str(urlparse.parse_qs(parsed.query)["code"][0])
+
+        driver.quit()
 
         params = {
             "client_id": self._client_id,
@@ -57,16 +69,36 @@ class Tistory:
         }
 
         self.URL["access"] += "?" + urlencode(params, 'utf-8')
-        driver.quit()
 
         self._token = urlopen(self.URL["access"]).read().decode('utf-8')
-        print(self._token)
+
+        self.state = "login"
+        return True
+
+    def isLogin(self):
+        return self.state == "login"
 
     def info(self):
-        return urlopen(self.URL["info"] + "?" + self._token + "&output=json").read().decode('utf-8')
+        if not self.isLogin():
+            print("로그인상태가 아닙니다.")
+            return False
+
+        return json.loads(urlopen(self.URL["info"] + "?" + self._token + "&output=json").read().decode())
 
     def categoryList(self):
-        return urlopen(self.URL["category"] + "?" + self._token + "&blogName=boycoding&output=json").read().decode('utf-8')
+        if not self.isLogin():
+            print("로그인상태가 아닙니다.")
+            return False
+        return json.loads(urlopen(self.URL["category"] + "?" + self._token + "&blogName=boycoding&output=json").read().decode())
+
+    def post(self, mode=""):
+        if not self.isLogin():
+            print("로그인상태가 아닙니다.")
+            return False
+
+        data = json.loads(urlopen(self.URL["post.list"] + "?" + self._token + "&blogName=boycoding&output=json&count=30").read().decode())
+
+        return data["tistory"]["item"]
 
     URL = \
         {
