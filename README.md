@@ -50,10 +50,13 @@ The Tistory API returns JSON.
 우선 TistoryAPI Library가 파이썬에는 존재하지 않는다.
 (JAVA, PHP, NodeJS 다 있는데 파이썬만 없다.)
 
-티스토리가 oauth2 방식을 채택하면서 작년까지 제공하던 XMLRPC 방식을 이용한 metaweblog API 제공을 중단해버렸다.
+정확히는 존재 하지만 1년 전의 metaweblog API를 사용한 방식이다.
+(티스토리가 oauth2 방식을 채택하면서 작년까지 제공하던 XMLRPC 방식을 이용한 metaweblog API 제공을 중단해버렸다.)
 
-덕분에 로그인부분이 너무 힘들었다.
+그래서 텀프로젝트 겸 api클래스를 한번 만들어 보기로 결심했다.
 
+oauth2방식은 웹브라우저 지원 없이 로그인 구현하기가 힘들다.
+ 
 결과적으로 selenium과 chromedriver를 이용해서 원격조정 하는 방식으로 로그인을 구현했다.
 
 이 부분은 추후 적절한 webview를 이용해서 다시 처리해야겠다.
