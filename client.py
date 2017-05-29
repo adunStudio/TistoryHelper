@@ -22,6 +22,9 @@ while 1:
     print("3. 글 목록")
     print("4, 글 읽기")
     print("5. 방명록")
+    print("6. 글 쓰기")
+    print("7. 글 수정")
+    print("8. 글 삭제")
     print("----------------------------")
 
     command = int(input("명령어를 선택해주세요: "))
@@ -45,7 +48,7 @@ while 1:
     elif command is 4:
         id = int(input("읽을 글의 ID를 입력해주세요: "))
 
-        post = tistory.post_read(id)
+        post = tistory.post_read(postId=id)
 
         print("글 제목 : ", post["title"])
         print("글 등록 일 : ", post["date"])
@@ -54,6 +57,23 @@ while 1:
 
     elif command is 5:
         print(tistory.guestBook_list())
+
+    elif command is 6:
+        title = input("제목 : ")
+        content = input("내용 : ")
+        print(tistory.post_write(title=title, content=content))
+
+    elif command is 7:
+        postId = input("수정할 글의 ID를 입력해주세요: ")
+        title = input("제목 : ")
+        content = input("내용 : ")
+        print(tistory.post_modify(postId=postId, title=title, content=content))
+
+    elif command is 8:
+        postId = input("삭제할 글의 ID를 입력해주세요: ")
+        print(tistory.post_delete(postId=postId))
+
+
 
 
 
