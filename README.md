@@ -10,10 +10,10 @@ and Python 3 Libray for interacting with the Tistory RESTful API.
 [Selenium](http://www.seleniumhq.org/), [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/).
 
 	pip install selenium
-  
+
 
 ### Example API usage
-```python  
+```python
 blog = Tistory(client_id="", client_secret="", redirect_uri="")
 blog.login(id="", pw="")
 
@@ -24,6 +24,10 @@ posts = blog.post("list")
 
 for post in posts:
     print(post["title"])
+
+blog.post_write(title="", content="", published="", tag="")
+blog.post_modify(postId="", title="", content="", published="", tag="")
+blog.post_delete(postId="")
 ```
 
 ### Notes
