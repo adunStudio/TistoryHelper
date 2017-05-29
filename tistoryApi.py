@@ -163,7 +163,9 @@ class Tistory:
             print("로그인상태가 아닙니다.")
             return False
 
-        data = urlopen(self.URL["guestbook.list"] + "?output=json&" + self._token).read().decode()
+        params = urlencode({"blogName":self._blogName}, "utf-8")
+
+        data = urlopen(self.URL["guestbook.list"] + "?" + params + "&output=json&" + self._token).read().decode()
 
         return self._toJsonItem(data)
 
