@@ -212,6 +212,18 @@ class Tistory:
 
         return self._toJsonItem(data)
 
+    def comment_newest(self, page=1, count=10):
+
+        if not self.isLogin():
+            print("로그인상태가 아닙니다.")
+            return False
+
+        params = urlencode({"page": page, "count": count, "blogName":self._blogName}, "utf-8")
+
+        data = urlopen(self.URL["comment.newest"] + "?" + params + "&output=json&" + self._token).read().decode()
+
+        return self._toJsonItem(data)
+
     def _toJsonItem(self, data):
         try:
             return json.loads(data)["tistory"]["item"]

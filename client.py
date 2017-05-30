@@ -25,6 +25,7 @@ while 1:
     print("6. 글 쓰기")
     print("7. 글 수정")
     print("8. 글 삭제")
+    print("9. 최근 댓글")
     print("----------------------------")
 
     command = int(input("명령어를 선택해주세요: "))
@@ -43,6 +44,9 @@ while 1:
         print("총 게시물 개수:", count)
 
         for post in posts:
+            if int(post["comments"]) > 0 :
+                post["title"] += "[" + post["comments"] + "]"
+
             print("ID:", post["id"], "제목:", post["title"])
 
     elif command is 4:
@@ -56,7 +60,22 @@ while 1:
         print(post["content"])
 
     elif command is 5:
-        print(tistory.guestBook_list())
+        data = tistory.guestBook_list()
+        guestbooks = data["guestbooks"]
+
+        for guestbook in guestbooks:
+            print(guestbook["name"], ":", guestbook["comment"])
+
+            if guestbook["replies"] != "":
+                replies = guestbook["replies"]["reply"]
+
+                if type(replies) is dict:
+                    print("   - ", replies["name"], ":", replies["comment"])
+                else:
+                    for reply in replies:
+                        print("   - ", reply["name"], ":", reply["comment"])
+
+
 
     elif command is 6:
         title = input("제목 : ")
@@ -72,6 +91,13 @@ while 1:
     elif command is 8:
         postId = input("삭제할 글의 ID를 입력해주세요: ")
         print(tistory.post_delete(postId=postId))
+
+    elif command is 9:
+        data = tistory.comment_newest()
+        comments = data["comments"]
+
+        for comment in comments:
+            print("ID:", comment["id"], ", 작성자:", comment["name"], ",제목:", comment["comment"])
 
 
 
