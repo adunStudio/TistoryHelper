@@ -1,5 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from urllib.request import urlopen
 from urllib.parse import urlencode
 import urllib.parse as urlparse
@@ -7,8 +5,7 @@ import time
 import json
 
 
-chromeDriver = "/Users/adun/Downloads/chromedriver"
-driver = webdriver.Chrome(executable_path=chromeDriver)
+
 
 class Tistory:
 
@@ -60,51 +57,23 @@ class Tistory:
 
         self.URL["login"] += "?" + urlencode(params)
 
-
-    def login(self, id, pw):
-        self._id = id
-        self._pw = pw
-
-        driver.get(self.URL["login"])
-
-        driver.find_element_by_id("loginId").send_keys(self._id)
-        driver.find_element_by_id("loginPw").send_keys(self._pw)
-        driver.find_element_by_class_name("btn_login").click()
-
-        try:
-            driver.find_element_by_class_name("confirm").click()
-        except :
-            driver.quit()
-            print("아이디 또는 비밀번호가 틀렸습니다.")
-            return False
-
-
-        url = driver.current_url
-        parsed = urlparse.urlparse(url)
-        self._code = str(urlparse.parse_qs(parsed.query)["code"][0])
-
-        driver.quit()
-
+    def getToken(self, code):
+        self._code = code
         params = \
             {
-            "client_id": self._client_id,
-            "client_secret": self._client_secret,
-            "redirect_uri": self._redirect_uri,
-            "code": self._code,
-            "grant_type": "authorization_code"
+                "client_id": self._client_id,
+                "client_secret": self._client_secret,
+                "redirect_uri": self._redirect_uri,
+                "code": code,
+                "grant_type": "authorization_code"
             }
 
         self.URL["access"] += "?" + urlencode(params, 'utf-8')
-
         self._token = urlopen(self.URL["access"]).read().decode('utf-8')
 
-        access_token = self._token.split('access_token=')[-1]
-        access_token = access_token.lstrip().rstrip()
-        self._access_token = access_token
+        return self._token
 
-        self.state = "login"
 
-        return True
 
     def isLogin(self):
 
