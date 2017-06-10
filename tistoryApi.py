@@ -69,19 +69,24 @@ class Tistory:
             }
 
         self.URL["access"] += "?" + urlencode(params, 'utf-8')
-        self._token = urlopen(self.URL["access"]).read().decode('utf-8')
+        self._access_token = urlopen(self.URL["access"]).read().decode('utf-8')
+        self._token = "access_token=" + self._access_token
 
+        self.state = "login"
+        print(self._token)
+
+    def getT(self):
         return self._token
 
 
 
-    def isLogin(self):
 
+    def isLogin(self):
+        print(self.state)
         return self.state == "login"
 
 
     def info(self):
-
         if not self.isLogin():
             print("로그인상태가 아닙니다.")
             return False

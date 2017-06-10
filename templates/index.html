@@ -1,13 +1,137 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
+<html ng-app="AdunDocs" ng-controller="DocsCtrl">
+<head>
+    <title>TstoryHelper</title>
+    <meta name="viewport"      content="width=device-width initial-scale=1 maximum-scale=1" />
+    <meta name="author"        content="adunstudio">
+    <meta name="keywords"      content="티스토리 헬퍼">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href=/static/img/adundocsicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/img/adundocsicon.ico" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/css/bootstrap.css"./>
+    <!-- style -->
+    <link id="theme" rel="stylesheet" href="/static/css/style_white.css"./>
+    <!-- editormd -->
+    <link rel="stylesheet" href="/static/editor.md/css/editormd.css"./>
+
+    <!-- summernote -->
+    <link rel="stylesheet" href="/static/summernote/summernote.css"./>
+
+
+    <link rel="stylesheet" href="/static/css/custom.css"./>
+    <!-- Angular -->
+    <script src="/static/js/lib/angular.min.js"></script>
+    <!-- Angular-router -->
+    <script src="/static/js/lib/angular-route.min.js"></script>
+    <!-- Angular-cookies -->
+    <script src="/static/js/lib/angular-cookies.min.js"></script>
+    <!-- Angular-sanitize -->
+    <script src="/static/js/lib/angular-sanitize.min.js"></script>
+    <!-- Angular-messages -->
+    <script src="/static/js/lib/angular-messages.min.js"></script>
+    <!-- Moment -->
+    <script src="/static/js/lib/moment.js"></script>
+    <!-- ShowDown -->
+    <script src="/static/js/lib/showdown.js"></script>
+    <!-- md -->
+    <script src="/static/js/lib/md.min.js"></script>
+
+    <!-- MathJax -->
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+    <!-- summernote -->
+    <!--<script src="/static/summernote/summernote.js"></script>-->
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+</head>
+<body <!--class="_booting _loading"--> ng-keypress="key();">
+    <div  ng-show="!isTrash" role="complementary" class="_path" >
+        <a ng-show="docStat.dirName && !isTrash" href="#/[[docStat.dirName]]?check=1" class="_path-item _icon-[[docStat.dirName | lowercase]]">[[docStat.dirName]]</a>
+        <a ng-show="docStat.subName && !isTrash" href="#/[[docStat.dirName]]/[[docStat.subName]]?check=1" class="_path-item">[[docStat.subName]]</a>
+        <span ng-show="docStat.fileName" class="_path-item">[[docStat.fileName]]</span>
+        <span ng-show="isLogin && docStat.dirName && docStat.subName && docStat.fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[docStat.dirName]]/[[docStat.subName]]/[[docStat.fileName]]" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="docStat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: [[docStat.mtime | date: "y-MM-dd"]] </span>
+        <span ng-show="docStat.btime" style="float: right;" class="_path-item">작성 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
+    </div>
+
+    <div ng-show="isTrash" role="complementary" class="_path" >
+        <a href="" class="_path-item _icon-trash">[[docStat.dirName]]</a>
+        <a href="" class="_path-item">[[docStat.subName]]</a>
+        <span class="_path-item">[[docStat.fileName]]</span>
+        <span style="float: right;" class="_path-item">삭제된 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
+    </div>
+
+    <div  ng-show="blogStat.dirCategory" role="complementary" class="_path">
+        <a ng-show="blogStat.dirCategory" href="#blog/[[blogStat.dirCategory]]?check=1" class="_path-item _icon-tistory">[[blogStat.dirCategory]]</a>
+        <a ng-show="blogStat.subCategory" href="#blog/[[blogStat.dirCategory]]/[[blogStat.subCategory]]?check=1" class="_path-item">[[blogStat.subCategory]]</a>
+        <span ng-show="blogStat.title" class="_path-item">[[blogStat.title]]</span>
+        <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/[[blogStat.postid]]" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
+        <span ng-show="!blogStat.title && blogStat.dirCategory && blogStat.dirCategory != '분류없음'" style="float: right;" class="_path-item"><a href="#/blog/write/[[blogStat.dirCategory]]/[[blogStat.subCategory]]" ><i class="fa fa-pencil" aria-hidden="true"></i> New Post</a></span>
+        <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: [[blogStat.dateCreated | date: "y-MM-dd hh:mm"]] </span>
+    </div>
+
+    <!-- 배너 -->
+    <header class="_header" role="banner">
+        <button ng-click="historyBack();" type="button" class="_mobile-btn _back-btn">Back</button>
+        <button ng-click="historyForward();" type="button" class="_mobile-btn _forward-btn">Forward</button>
+        <button ng-click="naviToggle()" type="button" class="_mobile-btn _menu-btn">Menu</button>
+        <button ng-click="initialize();" type="button" class="_mobile-btn _home-btn">Home</button>
+        <form  class="_search" role="search">
+            <input ng-model="search" ng-change="searchDoc();" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
+            <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
+            <div class="_search-tag"></div>
+        </form>
+        <h1 class="_logo">
+            <a ng-click="initialize();" href="javascript:void(0);" class="_nav-link" title="Offline API Documentation Browser">TstoryHelper</a>
+        </h1>
+        <nav class="_nav" role="navigation">
+            <!-- _nav-current -->
+            <a href="#blog"  class="_nav-link " title="blog">[[blogName]]</a>
+            <a href="#aboutkor" class="_nav-link" title="about">About</a>
+            <a href="#news"  class="_nav-link" title="news">News</a>
+            <a ng-show="isLogin"                      href="#write"  class="_nav-link" title="write">Write</a>
+        </nav>
+    </header>
+    <!-- 배너 -->
+
+
+    <!-- 문서 -->
+    <div class="_container" role="document">
+        <main class="_content" id="content" role="main" tabindex="1">
+            <nav class="_mobile-nav">
+                <a href="#blog" class="_mobile-nav-link">Blog</a>
+                <a href="#about" class="_mobile-nav-link">About</a>
+                <a href="#news" class="_mobile-nav-link">News</a>
+                <a href="#tips" class="_mobile-nav-link">Tip</a>
+            </nav>
+<!--
+            _content-loading
+-->
+            <!-- 뷰 -->
+            <div class="" ng-view>
+
+            </div>
+            <!-- 뷰 -->
+
+        </main>
+    </div>
+    <!-- 문서 -->
+</div>
+
+<style data-size="18rem" data-resizer="">
+    ._container { margin-left: 18rem; }
+    ._search, ._list, ._sidebar-footer { width: 18rem; }
+    ._list-hover.clone { min-width: 18rem; }
+    ._notice, ._path, ._resizer {
+        left: 18rem; }
+</style>
+
+</body>
 </html>
+<!-- requirejs 로 고쳐야하는데 귀찮음 -->
+<script src="/static/js/adundocs.js?v=1222"></script>
+
+
+

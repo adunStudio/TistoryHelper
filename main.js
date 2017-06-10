@@ -17,7 +17,8 @@ app.on('ready', function() {
   var mainAddr = 'http://localhost:7711';
 
   var openWindow = function(){
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    mainWindow = new BrowserWindow({width: 1600, height: 900});
+    //mainWindow.setMenu(null);
     mainWindow.loadURL('http://localhost:7711/login');
     mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function() {
