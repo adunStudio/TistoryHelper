@@ -1,8 +1,7 @@
 from urllib.request import urlopen
 from urllib.parse import urlencode
-import urllib.parse as urlparse
-import time
 import json
+import http.client
 
 
 
@@ -69,11 +68,15 @@ class Tistory:
             }
 
         self.URL["access"] += "?" + urlencode(params, 'utf-8')
-        self._access_token = urlopen(self.URL["access"]).read().decode('utf-8')
+        text = urlopen(self.URL["access"]).read().decode('utf-8')
+        self._access_token = text.split('access_token=')[-1]
+        self._access_token = self._access_token.lstrip().rstrip()
         self._token = "access_token=" + self._access_token
 
+
+
         self.state = "login"
-        print(self._token)
+        return self._token
 
     def getT(self):
         return self._token
@@ -87,13 +90,14 @@ class Tistory:
 
 
     def info(self):
-        if not self.isLogin():
-            print("로그인상태가 아닙니다.")
-            return False
 
-        data = urlopen(self.URL["info"] + "?output=json&"  + self._token).read().decode()
+        url = self.URL["info"]
+        urlopen("https://www.tistory.com/apis/blog/info?output=json")
+        #data = urlopen(self.URL["info"] + "?output=json&"  + self._token).read().decode()
+       # data = urlopen(self.URL["info"] + "?output=json&" ).read().decode()
+       # data = urlopen(self.URL["category"] + "?output=json&" )
+        #return data #self._toJsonItem(data)
 
-        return self._toJsonItem(data)
 
 
     def categoryList(self):
@@ -206,6 +210,9 @@ class Tistory:
                 return json.loads(data)["tistory"]
             except:
                 print("삭제권한이 없습니다.")
+
+
+
 
 
 
