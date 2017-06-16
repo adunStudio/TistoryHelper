@@ -8,7 +8,7 @@
     background-position: center;
 }
 ._icon-tistory:before {
-    background-image: url('/img/tistory.png') !important;
+    background-image: url('/static/img/tistory.png') !important;
     background-size: 16px !important;
     background-repeat: no-repeat;
     background-position: center;

@@ -12,15 +12,19 @@
     <!-- bootstrap -->
     <link rel="stylesheet" href="/static/css/bootstrap.css"./>
     <!-- style -->
-    <link id="theme" rel="stylesheet" href="/static/css/style_white.css"./>
+    <link id="theme" rel="stylesheet" href="/static/css/style_white.css?ver=2"/>
     <!-- editormd -->
-    <link rel="stylesheet" href="/static/editor.md/css/editormd.css"./>
+    <link rel="stylesheet" href="/static/editor.md/css/editormd.css"/>
 
     <!-- summernote -->
-    <link rel="stylesheet" href="/static/summernote/summernote.css"./>
+    <link rel="stylesheet" href="/static/summernote/summernote.css"/>
 
 
-    <link rel="stylesheet" href="/static/css/custom.css"./>
+    <link rel="stylesheet" href="/static/css/custom.css?ver=1"./>
+
+    <scirpt>window.$ = window.jQuery = require('http://localhost:7711/static/js/lib/jquery.min.js');</scirpt>
+
+
     <!-- Angular -->
     <script src="/static/js/lib/angular.min.js"></script>
     <!-- Angular-router -->
@@ -46,38 +50,17 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 </head>
-<body <!--class="_booting _loading"--> ng-keypress="key();">
-    <div  ng-show="!isTrash" role="complementary" class="_path" >
-        <a ng-show="docStat.dirName && !isTrash" href="#/[[docStat.dirName]]?check=1" class="_path-item _icon-[[docStat.dirName | lowercase]]">[[docStat.dirName]]</a>
-        <a ng-show="docStat.subName && !isTrash" href="#/[[docStat.dirName]]/[[docStat.subName]]?check=1" class="_path-item">[[docStat.subName]]</a>
-        <span ng-show="docStat.fileName" class="_path-item">[[docStat.fileName]]</span>
-        <span ng-show="isLogin && docStat.dirName && docStat.subName && docStat.fileName && !isTrash" style="float: right;" class="_path-item"><a href="#/edit/[[docStat.dirName]]/[[docStat.subName]]/[[docStat.fileName]]" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
-        <span ng-show="docStat.mtime" style="float: right;" class="_path-item">최종 수정 날짜: [[docStat.mtime | date: "y-MM-dd"]] </span>
-        <span ng-show="docStat.btime" style="float: right;" class="_path-item">작성 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
-    </div>
-
-    <div ng-show="isTrash" role="complementary" class="_path" >
-        <a href="" class="_path-item _icon-trash">[[docStat.dirName]]</a>
-        <a href="" class="_path-item">[[docStat.subName]]</a>
-        <span class="_path-item">[[docStat.fileName]]</span>
-        <span style="float: right;" class="_path-item">삭제된 날짜: [[docStat.btime | date: "y-MM-dd"]] </span>
-    </div>
-
-    <div  ng-show="blogStat.dirCategory" role="complementary" class="_path">
-        <a ng-show="blogStat.dirCategory" href="#blog/[[blogStat.dirCategory]]?check=1" class="_path-item _icon-tistory">[[blogStat.dirCategory]]</a>
-        <a ng-show="blogStat.subCategory" href="#blog/[[blogStat.dirCategory]]/[[blogStat.subCategory]]?check=1" class="_path-item">[[blogStat.subCategory]]</a>
-        <span ng-show="blogStat.title" class="_path-item">[[blogStat.title]]</span>
-        <span ng-show="blogStat.title" style="float: right;" class="_path-item"><a href="#/blog/edit/[[blogStat.postid]]" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></span>
-        <span ng-show="!blogStat.title && blogStat.dirCategory && blogStat.dirCategory != '분류없음'" style="float: right;" class="_path-item"><a href="#/blog/write/[[blogStat.dirCategory]]/[[blogStat.subCategory]]" ><i class="fa fa-pencil" aria-hidden="true"></i> New Post</a></span>
-        <span ng-show="blogStat.dateCreated" style="float: right;" class="_path-item">작성 날짜: [[blogStat.dateCreated | date: "y-MM-dd hh:mm"]] </span>
+<body>
+    <div  ng-show="post" role="complementary" class="_path">
+        <a  href="javascript:void(0);" class="_path-item _icon-tistory">[[categories[post.categoryId].name]]</a>
+        <span class="_path-item">[[post.title]]</span>
+        <span  style="float: right;" class="_path-item"><a href="http://localhost:7711/api/post/backup?postId=[[post.id]]"   ><i class="fa fa-pencil" aria-hidden="true"></i> 백업</a></span>
+        <span style="float: right;" class="_path-item">작성 날짜: [[post.date | date: "y-MM-dd hh:mm"]] </span>
+        <span style="float: right;" class="_path-item">댓글 수: [[post.comments]] </span>
     </div>
 
     <!-- 배너 -->
     <header class="_header" role="banner">
-        <button ng-click="historyBack();" type="button" class="_mobile-btn _back-btn">Back</button>
-        <button ng-click="historyForward();" type="button" class="_mobile-btn _forward-btn">Forward</button>
-        <button ng-click="naviToggle()" type="button" class="_mobile-btn _menu-btn">Menu</button>
-        <button ng-click="initialize();" type="button" class="_mobile-btn _home-btn">Home</button>
         <form  class="_search" role="search">
             <input ng-model="search" ng-change="searchDoc();" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
             <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
@@ -97,15 +80,28 @@
     <!-- 배너 -->
 
 
+
+ <!--
+    네비게이션 컨트롤러로 빼야함 -->
+    <!-- 네비게이션 -->
+    <div id="navigation">
+        <section class="_sidebar" tabindex="-1">
+            <div  role="navigation" class="_list dir" id="list">
+                <!-- Tistory -->
+                <h6 ng-show="categories" class="_list-title"> Tistory</h6>
+                <a ng-show="categories" ng-repeat-start="(key, value) in categories" ng-click="toggle($event)"  href="javascript:void(0);" class="_list-item _icon-tistory _list-dir _-blog_dir-_ isdir"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[value.posts.length]]</span><span class="_list-text">[[value.name]]</span></a>
+                <div ng-repeat-end="" class="_list _list-sub" >
+                    <a ng-repeat="post in value.posts"  href="#/view/[[post.id]]" class="_list-item _list-dir _-blog_sub-_ issub"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">[[post.title]]</span></a>
+                </div>
+                <!-- Tistory -->
+            </div>
+        </section>
+    </div>
+    <!-- 네비게이션 -->
+
     <!-- 문서 -->
     <div class="_container" role="document">
         <main class="_content" id="content" role="main" tabindex="1">
-            <nav class="_mobile-nav">
-                <a href="#blog" class="_mobile-nav-link">Blog</a>
-                <a href="#about" class="_mobile-nav-link">About</a>
-                <a href="#news" class="_mobile-nav-link">News</a>
-                <a href="#tips" class="_mobile-nav-link">Tip</a>
-            </nav>
 <!--
             _content-loading
 -->
@@ -131,7 +127,7 @@
 </body>
 </html>
 <!-- requirejs 로 고쳐야하는데 귀찮음 -->
-<script src="/static/js/adundocs.js?v=1222"></script>
+<script src="/static/js/adundocs.js?v=121234"></script>
 
 
 

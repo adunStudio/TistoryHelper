@@ -42,13 +42,13 @@
     display: block;
     width: 1rem;
     height: 1rem;
-    background-image: url('/img/icons2.png');
+    background-image: url('/static/img/icons2.png');
     background-size: 4rem 6rem
 }
 
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
     ._list-link:after, ._page a[href^="http:"]:after, ._page a[href^="https:"]:after, ._search:before, ._search-clear:before, ._notif-close:before, ._list-arrow:before, ._sidebar-footer-link:before, ._pre-clip:before, ._path-item + ._path-item:after, ._mobile-btn:before {
-        background-image: url('/img/icons.png');
+        background-image: url('/static/img/icons.png');
     }
 }
 
@@ -57,13 +57,13 @@
     display: block;
     width: 1rem;
     height: 1rem;
-    background-image: url('/img/docs2.png');
+    background-image: url('/static/img/docs2.png');
     background-size: 10rem 12rem
 }
 
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
     ._list-item:before, ._docs-name:before, ._path-item:first-child:before {
-        background-image: url('/img/docs.png');
+        background-image: url('/static/img/docs.png');
     }
 }
 
@@ -1598,10 +1598,9 @@ input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webki
 }
 
 
-/*.open + ._list-sub {
-
-
-}*/
+.open + ._list-sub {
+    display: block;
+}
 
 
 
@@ -3999,7 +3998,7 @@ pre:hover > ._pre-clip {
 
 
 
-/** ºÎÆ®½ºÆ®·¦ **/
+/** ï¿½ï¿½Æ®ï¿½ï¿½Æ®ï¿½ï¿½ **/
 /*bootstrap.css*/
 input.ng-invalid, select.ng-invalid {
     background: #f0f0f0;

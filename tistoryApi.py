@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 from urllib.parse import urlencode
 import json
+import requests
 import http.client
 
 
@@ -73,13 +74,12 @@ class Tistory:
         self._access_token = self._access_token.lstrip().rstrip()
         self._token = "access_token=" + self._access_token
 
-
-
         self.state = "login"
         return self._token
 
-    def getT(self):
-        return self._token
+    def setToken(self, token):
+        self._access_token = token
+        self._token = "access_token=" + token
 
 
 
@@ -90,13 +90,8 @@ class Tistory:
 
 
     def info(self):
-
-        url = self.URL["info"]
-        urlopen("https://www.tistory.com/apis/blog/info?output=json")
-        #data = urlopen(self.URL["info"] + "?output=json&"  + self._token).read().decode()
-       # data = urlopen(self.URL["info"] + "?output=json&" ).read().decode()
-       # data = urlopen(self.URL["category"] + "?output=json&" )
-        #return data #self._toJsonItem(data)
+        data = urlopen(self.URL["info"] + "?output=json&"  + self._token).read().decode()
+        return data
 
 
 
@@ -137,6 +132,18 @@ class Tistory:
         data = urlopen(self.URL["post.read"] + "?" + params + "&output=json&" + self._token).read().decode()
 
         return self._toJsonItem(data)
+
+    def post_backup(self, postId):
+
+        if not self.isLogin():
+            print("로그인상태가 아닙니다.")
+            return False
+
+        params = urlencode({"postId": postId, "blogName":self._blogName}, "utf-8")
+
+        data = urlopen(self.URL["post.read"] + "?" + params + "&" + self._token).read().decode()
+
+        return data
 
     def post_write(self, title, content, visibility=0, published="", category=0, slogan="", tag=""):
 
@@ -209,7 +216,7 @@ class Tistory:
             try:
                 return json.loads(data)["tistory"]
             except:
-                print("삭제권한이 없습니다.")
+                return json.loads(data)
 
 
 
