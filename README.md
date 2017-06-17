@@ -9,7 +9,7 @@ and Python 3 Libray for interacting with the Tistory RESTful API.
 
 [Flask](http://flask.pocoo.org/)
 
-	pip3 install falsk
+	pip3 install flask
 
 
 ### Example API usage
@@ -63,4 +63,4 @@ oauth2방식은 웹브라우저 지원 없이 로그인 구현하기가 힘들�
 
 ---
 
-flask를 이용해서 웹브라우저를 이용하게끔 하였다.
+flask를 이용해서 웹서버를 가동 후 웹브라우저를 이용하게끔 하였다.
