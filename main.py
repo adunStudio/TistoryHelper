@@ -54,6 +54,18 @@ def post_write_tistory():
     tistory.post_write(title=title, content=content, category=category)
     return jsonify(1)
 
+@app.route("/api/comment/list", methods=["GET"])
+def comment_list_tistory():
+    postId = request.args.get('postId')
+    return jsonify(tistory.comment_list(postId=postId))
+
+@app.route("/api/guestbook/list")
+def guestbook_list_tistory():
+    return jsonify(tistory.guestBook_list())
+
+@app.route("/api/comment/newest")
+def comment_newest_tistory():
+    return jsonify(tistory.comment_newest())
 
 @app.route("/code", methods=['GET'])
 def code2():
@@ -67,6 +79,7 @@ def login():
 @app.route("/static/<path:path>")
 def static2(path):
     return send_from_directory('static', path)
+
 
 @app.route("/")
 def main():

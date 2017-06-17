@@ -13,8 +13,7 @@
     <h1 class="_lined-heading">News</h1>
 
     <p class="_note">
-        문의사항이 있나요? <a href="http://oppacoding.com/about" target="_blank">@OppaCoding</a>.<br>
-        개발에 기여하고 싶다면 <a href="https://github.com/adunStudio/AdunDocs" target="_blank">GitHub</a>.
+        개발에 기여하고 싶다면 <a href="https://github.com/adunStudio/TistoryHelper" target="_blank">GitHub</a>.
     </p>
     <div ng-hide="isMobile" class="map_btn" style="padding-top: 5px; padding-bottom: 10px; margin-right: 3px">
         <a href="javascript:void(0);" id="map_prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
@@ -28,50 +27,19 @@
         <small><span style="background-color: #ABC901">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href="http://www.oppacoding.com" target="_blank" style="text-decoration: none;">OppaCoding</a></small>
     </div>-->
     <div class="_news">
-        <h4>Docs</h4>
-        <div ng-repeat="file in sortedFileArray" class="_news-row [[toDateString(file.btime)]]" >
-            <span class="_news-date">[[toDateString(file.btime)]]</span>
-            <span class="_news-title">  New documentation: <a href="#/[[file.dirName]]/[[file.subName]]/[[file.fileName]]?check=1">[[file.fileName]]</a></span>
+
+        <h4>댓글</h4>
+        <div ng-repeat="(key, value) in newest" class="_news-row" >
+            <span class="_news-date">[[value.date | date: "y-MM-dd"]]</span>
+            <span class="_news-title" style="margin-left: 60px;">  [[value.name]]: <a href="#/view/[[value.postId]]">[[value.comment]]</a></span>
+        </div>
+
+        <h4>방명록</h4>
+        <div ng-repeat="(key, value) in guestBook" class="_news-row" >
+            <span class="_news-date">[[value.date | date: "y-MM-dd"]]</span>
+            <span class="_news-title" style="margin-left: 60px;">  [[value.name]]: [[value.comment]]</a></span>
         </div>
 
         <!--<div class="_news-row"><span class="_news-date">June 18</span> <span class="_news-title">Initial release</span>-->
     </div>
 </div>
-<script>
-    /*$(function() {
-        var smoothie = new SmoothieChart({
-            grid: { strokeStyle:'#EDEDED', fillStyle:'white', lineWidth: 1, millisPerLine: 250, verticalSections: 6 },
-            labels: { fillStyle:'rgb(60, 0, 0)' },
-            maxValueScale: 1.2,
-            minValueScale: 1.2,
-            yMinFormatter: function(min, precision) {
-                return Math.ceil(parseFloat(min).toFixed(precision)) + "명";
-            },
-            yMaxFormatter: function(max, precision) {
-                return Math.ceil(parseFloat(max).toFixed(precision)) + "명";
-            },
-        });
-        smoothie.streamTo(document.getElementById("chart"));
-
-        var line1 = new TimeSeries();
-        var line2 = new TimeSeries();
-        var line3 = new TimeSeries();
-
-        (function getCurrent() {
-            var date = new Date().getTime();
-            $.post('http://www.oppacoding.com/count/current.php', function(data) {
-                line1.append(date, data['boycoding']  || 1)
-                line2.append(date, data['adundocs'] ||  1)
-                line3.append(date, data['oppacoding'] || 1)
-            }, 'json');
-
-            setTimeout(getCurrent, 1100);
-        })();
-
-        smoothie.addTimeSeries(line1, { strokeStyle:'rgb(255, 99, 132)', fillStyle:'rgba(255, 99, 132, 0.3)', lineWidth:3 });
-        smoothie.addTimeSeries(line2,  { strokeStyle:'rgb(54, 162, 235)', fillStyle:'rgba(54, 162, 235, 0.3)', lineWidth:3 });
-        smoothie.addTimeSeries(line3,  { strokeStyle:'rgb(171, 201, 1)', fillStyle:'rgba(171, 201, 1, 0.3)', lineWidth:3 });
-    });
-*/
-
-</script>

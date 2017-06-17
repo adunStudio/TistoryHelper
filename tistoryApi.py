@@ -81,6 +81,9 @@ class Tistory:
         self._access_token = token
         self._token = "access_token=" + token
 
+    def getT(self):
+        return self._access_token
+
 
 
 
@@ -151,13 +154,17 @@ class Tistory:
             print("로그인상태가 아닙니다.")
             return False
 
+
         params = urlencode({"title": title, "content": content, "visibility": visibility, "published": published,
                             "category": category, "slogan": slogan, "tag": tag, "blogName":self._blogName,
                             "output": "json", "access_token": self._access_token}).encode("utf-8")
+        try:
 
-        data = urlopen(self.URL["post.write"], data=params).read().decode()
+            data = urlopen(self.URL["post.write"], data=params).read().decode()
 
-        return self._toJsonItem(data)
+            return 2
+        except Exception:
+            return 1
 
     def post_modify(self, title, content, postId, visibility=0, published="", category=0, slogan="", tag=""):
 
@@ -183,6 +190,8 @@ class Tistory:
 
         data = urlopen(self.URL["post.delete"], data=params).read().decode()
 
+        return data
+
         return self._toJsonItem(data)
 
     def guestBook_list(self):
@@ -194,6 +203,17 @@ class Tistory:
         params = urlencode({"blogName":self._blogName}, "utf-8")
 
         data = urlopen(self.URL["guestbook.list"] + "?" + params + "&output=json&" + self._token).read().decode()
+
+        return self._toJsonItem(data)
+
+    def comment_list(self, postId):
+        if not self.isLogin():
+            print("로그인상태가 아닙니다.")
+            return False
+
+        params = urlencode({"postId":postId, "blogName":self._blogName}, "utf-8")
+
+        data = urlopen(self.URL["comment.list"] + "?" + params + "&output=json&" + self._token).read().decode()
 
         return self._toJsonItem(data)
 

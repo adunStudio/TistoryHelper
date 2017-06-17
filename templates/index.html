@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html ng-app="AdunDocs" ng-controller="DocsCtrl">
 <head>
-    <title>TstoryHelper</title>
+    <title>TistoryHelper</title>
     <meta name="viewport"      content="width=device-width initial-scale=1 maximum-scale=1" />
     <meta name="author"        content="adunstudio">
     <meta name="keywords"      content="티스토리 헬퍼">
@@ -16,14 +16,8 @@
     <!-- editormd -->
     <link rel="stylesheet" href="/static/editor.md/css/editormd.css"/>
 
-    <!-- summernote -->
-    <link rel="stylesheet" href="/static/summernote/summernote.css"/>
-
-
     <link rel="stylesheet" href="/static/css/custom.css?ver=1"./>
-
-    <scirpt>window.$ = window.jQuery = require('http://localhost:7711/static/js/lib/jquery.min.js');</scirpt>
-
+    <script src="/static/js/lib/jquery.min.js"></script>
 
     <!-- Angular -->
     <script src="/static/js/lib/angular.min.js"></script>
@@ -41,13 +35,10 @@
     <script src="/static/js/lib/showdown.js"></script>
     <!-- md -->
     <script src="/static/js/lib/md.min.js"></script>
-
+    <script src="/static/editor.md/editormd.js?ver=212"></script>
+    <script src="/static/editor.md/languages/en.js"></script>
     <!-- MathJax -->
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-
-    <!-- summernote -->
-    <!--<script src="/static/summernote/summernote.js"></script>-->
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 </head>
 <body>
@@ -67,14 +58,13 @@
             <div class="_search-tag"></div>
         </form>
         <h1 class="_logo">
-            <a ng-click="initialize();" href="javascript:void(0);" class="_nav-link" title="Offline API Documentation Browser">TstoryHelper</a>
+            <a ng-click="initialize();" href="javascript:void(0);" class="_nav-link" title="Offline API Documentation Browser">TistoryHelper</a>
         </h1>
         <nav class="_nav" role="navigation">
             <!-- _nav-current -->
             <a href="#blog"  class="_nav-link " title="blog">[[blogName]]</a>
-            <a href="#aboutkor" class="_nav-link" title="about">About</a>
             <a href="#news"  class="_nav-link" title="news">News</a>
-            <a ng-show="isLogin"                      href="#write"  class="_nav-link" title="write">Write</a>
+            <a href="#write"  class="_nav-link" title="write">Write</a>
         </nav>
     </header>
     <!-- 배너 -->
@@ -91,7 +81,7 @@
                 <h6 ng-show="categories" class="_list-title"> Tistory</h6>
                 <a ng-show="categories" ng-repeat-start="(key, value) in categories" ng-click="toggle($event)"  href="javascript:void(0);" class="_list-item _icon-tistory _list-dir _-blog_dir-_ isdir"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[value.posts.length]]</span><span class="_list-text">[[value.name]]</span></a>
                 <div ng-repeat-end="" class="_list _list-sub" >
-                    <a ng-repeat="post in value.posts"  href="#/view/[[post.id]]" class="_list-item _list-dir _-blog_sub-_ issub"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">[[post.title]]</span></a>
+                    <a ng-repeat="post in value.posts"  href="#/view/[[post.id]]"  ng-click="togglePost($event)" class="_list-item _list-dir _-blog_sub-_ issub"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">[[post.title]]</span></a>
                 </div>
                 <!-- Tistory -->
             </div>
@@ -126,8 +116,7 @@
 
 </body>
 </html>
-<!-- requirejs 로 고쳐야하는데 귀찮음 -->
-<script src="/static/js/adundocs.js?v=121234"></script>
+<script src="/static/js/adundocs.js?v=12122223222223222222dd222dd2s2s2222222312234"></script>
 
 
 
