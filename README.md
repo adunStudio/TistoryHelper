@@ -7,9 +7,10 @@ and Python 3 Libray for interacting with the Tistory RESTful API.
 
 ### Dependencies
 
-[Flask](http://flask.pocoo.org/)
+[Flask](http://flask.pocoo.org/), [markdown2](https://github.com/trentm/python-markdown2)
 
 	pip3 install flask
+	pip3 install markdown2
 
 
 ### Example API usage

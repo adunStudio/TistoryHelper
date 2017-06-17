@@ -12,13 +12,14 @@ import webbrowser
 
 import tistoryApi
 import spam # c연동
-
+import markdown2
 
 secretKey = "cc1dc1840c45306f2703e06cc752c4c3eaf3f200fe1f244a6a5991f9e18d869aa2a08259"
 tistory = tistoryApi.Tistory(client_id="cc1dc1840c45306f2703e06cc752c4c3", client_secret=secretKey, redirect_uri="http://localhost:7711/code")
 
 app = Flask(__name__)
 
+markdowner = markdown2.Markdown()
 
 @app.route("/api/info")
 def info_tistory():
@@ -52,7 +53,7 @@ def post_backup_tistory():
 def post_write_tistory():
     data = request.json
     title = data["title"]
-    content = data["content"]
+    content = markdowner.convert(data["content"])
     category = data["category"]
     if spam.strlen(title) == 0 and spam.strlen(content) and spam.strlen(category):
         return jsonify(2)
