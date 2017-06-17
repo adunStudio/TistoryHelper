@@ -45,6 +45,16 @@ def post_backup_tistory():
     response.headers["Content-Disposition"] = "attachment; filename="+str(title)+".xml"
     return response
 
+@app.route("/api/post/write", methods=["GET", "POST"])
+def post_write_tistory():
+    data = request.json
+    title = data["title"]
+    content = data["content"]
+    category = data["category"]
+    tistory.post_write(title=title, content=content, category=category)
+    return jsonify(1)
+
+
 @app.route("/code", methods=['GET'])
 def code2():
     tistory.getToken(request.args.get('code'))

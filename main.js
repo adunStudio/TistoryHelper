@@ -18,6 +18,9 @@ app.on('ready', function() {
 
   var openWindow = function(){
     mainWindow = new BrowserWindow({width: 1600, height: 900});
+      mainWindow.$ =  require('jquery');
+      mainWindow.jQuery  =  require('jquery');
+      mainWindow.asd  =  require('jquery');
     //mainWindow.setMenu(null);
     mainWindow.loadURL('http://localhost:7711/login');
     mainWindow.webContents.openDevTools();
