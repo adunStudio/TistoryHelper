@@ -1,0 +1,45 @@
+<style>
+    .map_btn a {
+        background: #e6e6e6;
+        color: #808080;
+        padding: 2px 8px;
+        border-radius: 3px;
+        margin-left: 2px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+</style>
+<div class="_static">
+    <h1 class="_lined-heading">News</h1>
+
+    <p class="_note">
+        개발에 기여하고 싶다면 <a href="https://github.com/adunStudio/TistoryHelper" target="_blank">GitHub</a>.
+    </p>
+    <div ng-hide="isMobile" class="map_btn" style="padding-top: 5px; padding-bottom: 10px; margin-right: 3px">
+        <a href="javascript:void(0);" id="map_prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+        <a href="javascript:void(0);" id="map_next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+    </div>
+    <div id="_heatmap"></div>
+    <!--<canvas style="" id="chart" width="350" height="100"></canvas>
+    <div style="">
+        <small><span style="background-color: #FF6384">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href="http://boycoding.tistory.com" target="_blank" style="text-decoration: none;">BoyCoding</a>&nbsp;&nbsp;</small>
+        <small><span style="background-color: #36A2EB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> AdunDocs&nbsp;&nbsp;</small>
+        <small><span style="background-color: #ABC901">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href="http://www.oppacoding.com" target="_blank" style="text-decoration: none;">OppaCoding</a></small>
+    </div>-->
+    <div class="_news">
+
+        <h4>댓글</h4>
+        <div ng-repeat="(key, value) in newest" class="_news-row" >
+            <span class="_news-date">[[value.date | date: "y-MM-dd"]]</span>
+            <span class="_news-title" style="margin-left: 60px;">  [[value.name]]: <a href="#/view/[[value.postId]]">[[value.comment]]</a></span>
+        </div>
+
+        <h4>방명록</h4>
+        <div ng-repeat="(key, value) in guestBook" class="_news-row" >
+            <span class="_news-date">[[value.date | date: "y-MM-dd"]]</span>
+            <span class="_news-title" style="margin-left: 60px;">  [[value.name]]: [[value.comment]]</a></span>
+        </div>
+
+        <!--<div class="_news-row"><span class="_news-date">June 18</span> <span class="_news-title">Initial release</span>-->
+    </div>
+</div>

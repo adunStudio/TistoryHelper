@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html ng-app="AdunDocs" ng-controller="DocsCtrl">
+<head>
+    <title>TistoryHelper</title>
+    <meta name="viewport"      content="width=device-width initial-scale=1 maximum-scale=1" />
+    <meta name="author"        content="adunstudio">
+    <meta name="keywords"      content="티스토리 헬퍼">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href=/static/img/adundocsicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/img/adundocsicon.ico" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/css/bootstrap.css"./>
+    <!-- style -->
+    <link id="theme" rel="stylesheet" href="/static/css/style_white.css?ver=2"/>
+    <!-- editormd -->
+    <link rel="stylesheet" href="/static/editor.md/css/editormd.css"/>
+
+    <link rel="stylesheet" href="/static/css/custom.css?ver=1"./>
+    <script src="/static/js/lib/jquery.min.js"></script>
+
+    <!-- Angular -->
+    <script src="/static/js/lib/angular.min.js"></script>
+    <!-- Angular-router -->
+    <script src="/static/js/lib/angular-route.min.js"></script>
+    <!-- Angular-cookies -->
+    <script src="/static/js/lib/angular-cookies.min.js"></script>
+    <!-- Angular-sanitize -->
+    <script src="/static/js/lib/angular-sanitize.min.js"></script>
+    <!-- Angular-messages -->
+    <script src="/static/js/lib/angular-messages.min.js"></script>
+    <!-- Moment -->
+    <script src="/static/js/lib/moment.js"></script>
+    <!-- ShowDown -->
+    <script src="/static/js/lib/showdown.js"></script>
+    <!-- md -->
+    <script src="/static/js/lib/md.min.js"></script>
+    <script src="/static/editor.md/editormd.js?ver=212"></script>
+    <script src="/static/editor.md/languages/en.js"></script>
+    <!-- MathJax -->
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+</head>
+<body>
+    <div  ng-show="post" role="complementary" class="_path">
+        <a  href="javascript:void(0);" class="_path-item _icon-tistory">[[categories[post.categoryId].name]]</a>
+        <span class="_path-item">[[post.title]]</span>
+        <span  style="float: right;" class="_path-item"><a href="http://localhost:7711/api/post/backup?postId=[[post.id]]"   ><i class="fa fa-pencil" aria-hidden="true"></i> 백업</a></span>
+        <span style="float: right;" class="_path-item">작성 날짜: [[post.date | date: "y-MM-dd hh:mm"]] </span>
+        <span style="float: right;" class="_path-item">댓글 수: [[post.comments]] </span>
+    </div>
+
+    <!-- 배너 -->
+    <header class="_header" role="banner">
+        <form  class="_search" role="search">
+            <input ng-model="search" ng-change="searchDoc();" type="search" class="_search-input" placeholder="Search…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" aria-label="Search">
+            <button type="reset" class="_search-clear" title="Clear search">Clear search</button>
+            <div class="_search-tag"></div>
+        </form>
+        <h1 class="_logo">
+            <a ng-click="initialize();" href="javascript:void(0);" class="_nav-link" title="Offline API Documentation Browser">TistoryHelper</a>
+        </h1>
+        <nav class="_nav" role="navigation">
+            <!-- _nav-current -->
+            <a href="#blog"  class="_nav-link " title="blog">[[blogName]]</a>
+            <a href="#news"  class="_nav-link" title="news">News</a>
+            <a href="#write"  class="_nav-link" title="write">Write</a>
+        </nav>
+    </header>
+    <!-- 배너 -->
+
+
+
+ <!--
+    네비게이션 컨트롤러로 빼야함 -->
+    <!-- 네비게이션 -->
+    <div id="navigation">
+        <section class="_sidebar" tabindex="-1">
+            <div  role="navigation" class="_list dir" id="list">
+                <!-- Tistory -->
+                <h6 ng-show="categories" class="_list-title"> Tistory</h6>
+                <a ng-show="categories" ng-repeat-start="(key, value) in categories" ng-click="toggle($event)"  href="javascript:void(0);" class="_list-item _icon-tistory _list-dir _-blog_dir-_ isdir"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-count">[[value.posts.length]]</span><span class="_list-text">[[value.name]]</span></a>
+                <div ng-repeat-end="" class="_list _list-sub" >
+                    <a ng-repeat="post in value.posts"  href="#/view/[[post.id]]"  ng-click="togglePost($event)" class="_list-item _list-dir _-blog_sub-_ issub"  tabindex="-1"><span class="_list-arrow"></span><span class="_list-text">[[post.title]]</span></a>
+                </div>
+                <!-- Tistory -->
+            </div>
+        </section>
+    </div>
+    <!-- 네비게이션 -->
+
+    <!-- 문서 -->
+    <div class="_container" role="document">
+        <main class="_content" id="content" role="main" tabindex="1">
+<!--
+            _content-loading
+-->
+            <!-- 뷰 -->
+            <div class="" ng-view>
+
+            </div>
+            <!-- 뷰 -->
+
+        </main>
+    </div>
+    <!-- 문서 -->
+</div>
+
+<style data-size="18rem" data-resizer="">
+    ._container { margin-left: 18rem; }
+    ._search, ._list, ._sidebar-footer { width: 18rem; }
+    ._list-hover.clone { min-width: 18rem; }
+    ._notice, ._path, ._resizer {
+        left: 18rem; }
+</style>
+
+</body>
+</html>
+<script src="/static/js/adundocs.js?v=12122223222223222222dd222dd2s2s2222222312234"></script>
+
+
+
