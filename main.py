@@ -8,7 +8,10 @@ from flask import send_from_directory
 from flask import jsonify
 from flask import make_response
 
+import webbrowser
+
 import tistoryApi
+import spam # c연동
 
 
 secretKey = "cc1dc1840c45306f2703e06cc752c4c3eaf3f200fe1f244a6a5991f9e18d869aa2a08259"
@@ -51,6 +54,9 @@ def post_write_tistory():
     title = data["title"]
     content = data["content"]
     category = data["category"]
+    if spam.strlen(title) == 0 and spam.strlen(content) and spam.strlen(category):
+        return jsonify(2)
+
     tistory.post_write(title=title, content=content, category=category)
     return jsonify(1)
 
@@ -74,6 +80,7 @@ def code2():
 
 @app.route("/login")
 def login():
+
     return redirect(tistory.URL["login"])
 
 @app.route("/static/<path:path>")
@@ -83,9 +90,14 @@ def static2(path):
 
 @app.route("/")
 def main():
+    if not tistory.isLogin():
+        return redirect("http://localhost:7711/login")
+
     return render_template('index.html')
 
+webbrowser.open("http://localhost:7711")
 
 if __name__ == "__main__":
     print('oh hello2')
     app.run(host='127.0.0.1', port=7711)
+

@@ -1,7 +1,6 @@
 from urllib.request import urlopen
 from urllib.parse import urlencode
 import json
-import requests
 import http.client
 
 

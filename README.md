@@ -7,9 +7,9 @@ and Python 3 Libray for interacting with the Tistory RESTful API.
 
 ### Dependencies
 
-[Selenium](http://www.seleniumhq.org/), [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/).
+[Flask](http://flask.pocoo.org/)
 
-	pip install selenium
+	pip3 install falsk
 
 
 ### Example API usage
@@ -60,3 +60,7 @@ oauth2방식은 웹브라우저 지원 없이 로그인 구현하기가 힘들�
 결과적으로 selenium과 chromedriver를 이용해서 원격조정 하는 방식으로 로그인을 구현했다.
 
 이 부분은 추후 적절한 webview를 이용해서 다시 처리해야겠다.
+
+---
+
+flask를 이용해서 웹브라우저를 이용하게끔 하였다.
